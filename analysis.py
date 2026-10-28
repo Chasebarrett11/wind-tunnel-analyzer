@@ -65,3 +65,16 @@ def print_lift_summary(alpha, cl0=0.10, lift_slope=0.11):
 #     solve_alpha(...)
 #
 # This feature has not been implemented yet.
+
+def solve_alpha(cl_target, cl0=0.10, lift_slope=0.11, alpha_guess=0.0):
+    """
+    Find the angle of attack (deg) where the lift coefficient equals cl_target.
+
+    Solves the residual f(alpha) = cl0 + lift_slope * alpha - cl_target = 0
+    using scipy.optimize.fsolve.
+    """
+    def residual(alpha):
+        return cl0 + lift_slope * alpha - cl_target
+
+    alpha_solution = fsolve(residual, alpha_guess)
+    return float(alpha_solution[0])
